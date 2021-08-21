@@ -7,14 +7,14 @@ use CodeIgniter\Model;
 class Obat extends Model
 {
 	protected $DBGroup              = 'default';
-	protected $table                = 'obats';
+	protected $table                = 'obat';
 	protected $primaryKey           = 'id';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
-	protected $returnType           = 'array';
+	protected $returnType           = 'object';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = [];
+	protected $allowedFields        = ['nama', 'merk', 'tanggal_exp', 'harga', 'stok'];
 
 	// Dates
 	protected $useTimestamps        = false;

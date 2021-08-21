@@ -6,10 +6,6 @@ use App\Controllers\BaseController;
 
 class AuthController extends BaseController
 {
-	public function __construct()
-	{
-		helper(['form', 'url']);
-	}
 
 	public function login()
 	{
@@ -47,6 +43,9 @@ class AuthController extends BaseController
 					session()->setFlashData('errors', 'Password Salah!');
 					return redirect()->to('login');
 				}
+			} else {
+				session()->setFlashData('errors', 'Username tidak di temukan!');
+				return redirect()->to('login');
 			}
 		}
 	}
