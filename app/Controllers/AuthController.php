@@ -21,6 +21,7 @@ class AuthController extends BaseController
 	{
 		$validation = \Config\Services::validation();
 		$request = \Config\Services::request();
+		$userModel = new \App\Models\User();
 
 
 
@@ -33,7 +34,27 @@ class AuthController extends BaseController
 			session()->setFlashData('errors', $validation->getErrors());
 			return redirect()->to('login')->withInput();
 		} else {
-			var_dump($request->getVar());
+			if ($user = $userModel->where('username', $request->getVar('username'))->first()) {
+				if (password_verify($request->getVar('password'), $user->password)) {
+					session()->set([
+						'id' => $user->id,
+						'username' => $user->username,
+						'name' => $user->name,
+						'logged_in' => true
+					]);
+					return redirect()->to('dashboard');
+				} else {
+					session()->setFlashData('errors', 'Password Salah!');
+					return redirect()->to('login');
+				}
+			}
 		}
+	}
+
+	public function logout()
+	{
+		session()->destroy();
+		session()->setFlashData('success', 'Berhasil logout!');
+		return redirect()->to('login');
 	}
 }
