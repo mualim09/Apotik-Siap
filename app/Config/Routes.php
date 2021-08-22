@@ -35,16 +35,33 @@ $routes->get('/', function () {
 	return redirect('login');
 });
 
+
+//Route Auth
 $routes->get('/login', 'AuthController::login', ['as' => 'login']);
 $routes->post('/login/login_process', 'AuthController::login_process', ['as' => 'login_process']);
 $routes->post('/logout', 'AuthController::logout', ['as' => 'logout']);
 
-
+//Route Dashboard
 $routes->get('/dashboard', 'DashboardController::index', ['as' => 'dashboard']);
+
+
+
+//Route Obat
 $routes->get('/obat', 'ObatController::index', ['as' => 'obat.index']);
+$routes->get('/obat/obat_habis', 'ObatController::obat_habis', ['as' => 'obat.obat_habis']);
+$routes->get('/obat/obat_kadaluarsa', 'ObatController::obat_kadaluarsa', ['as' => 'obat.obat_kadaluarsa']);
+
 $routes->get('/obat/create', 'ObatController::create', ['as' => 'obat.create']);
 $routes->post('/obat/store', 'ObatController::store', ['as' => 'obat.store']);
 $routes->post('/obat/delete/(:num)', 'ObatController::delete/$1', ['as' => 'obat.delete']);
+$routes->post('/obat/update/(:num)', 'ObatController::update/$1', ['as' => 'obat.update']);
+$routes->get('/obat/edit/(:num)', 'ObatController::edit/$1', ['as' => 'obat.edit']);
+
+
+//Route Transaksi
+$routes->get('/transaksi/beli_obat', 'TransaksiController::beli_obat', ['as' => 'transaksi.beli_obat']);
+$routes->get('/transaksi/penjualan', 'TransaksiController::penjualan', ['as' => 'transaksi.penjualan']);
+
 
 
 

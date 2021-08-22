@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateObatTable extends Migration
+class CreateTableItemsTransaksi extends Migration
 {
 	public function up()
 	{
@@ -15,29 +15,23 @@ class CreateObatTable extends Migration
 				'unsigned'       => true,
 				'auto_increment' => true,
 			],
-			'nama'       => [
-				'type'       => 'VARCHAR',
-				'constraint' => '100',
+			'id_transaksi'       => [
+				'type'           => 'INT',
 			],
-			'berat'       => [
+			'id_obat'       => [
+				'type'           => 'INT',
+			],
+			'jumlah'       => [
 				'type'       => 'INT',
 			],
-			'kategori'       => [
-				'type'       => 'VARCHAR',
-				'constraint' => '100',
-			],
-			'tanggal_exp'       => [
-				'type'       => 'DATE',
-			],
-			'harga'       => [
-				'type'       => 'INT',
-			],
-			'stok'       => [
+			'subtotal'       => [
 				'type'       => 'INT',
 			],
 		]);
+
+
 		$this->forge->addPrimaryKey('id');
-		$this->forge->createTable('obat');
+		$this->forge->createTable('items_transaksi');
 	}
 
 	public function down()

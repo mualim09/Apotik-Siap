@@ -14,7 +14,7 @@ class Obat extends Model
 	protected $returnType           = 'object';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['nama', 'merk', 'tanggal_exp', 'harga', 'stok'];
+	protected $allowedFields        = ['nama', 'berat', 'tanggal_exp', 'kategori', 'harga', 'stok'];
 
 	// Dates
 	protected $useTimestamps        = false;

@@ -8,58 +8,90 @@ Dashboard
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-        For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+    <a href="<?= route_to('obat.index') ?>" class="btn btn-success mr-2 mb-3"><i class="fas fa-arrow-left"></i></a>
+    <?php if (!empty(session()->getFlashData('errors'))) :
+    ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Oops!</strong> Cek kembali input data!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    <?php endif; ?>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Obat</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Tambah Obat</h6>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Nama Obat</th>
-                            <th>Merk</th>
-                            <th>Tanggal Expired</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Nama Obat</th>
-                            <th>Merk</th>
-                            <th>Tanggal Expired</th>
-                            <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <?php foreach ($obat as $item) : ?>
-                            <tr>
-                                <td><?= $item->nama ?></td>
-                                <td><?= $item->merk ?></td>
-                                <td><?= $item->tanggal_exp ?></td>
-                                <td><?= $item->harga ?></td>
-                                <td><?= $item->stok ?></td>
-                                <td>
-                                    <button class="btn btn-success">Edit</button>
-                                    <?= form_open('obat/' . $item->id . '/delete') ?>
-                                    <button class="btn btn-danger">Hapus</button>
-                                    <?= form_close() ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+            <form method="POST" action="<?= route_to('obat.update', $obat->id) ?>">
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Nama Obat :</label>
+                            <input value="<?= $obat->nama ?>" name="nama" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['nama']) ? 'is-invalid' : 'valid' ?>">
+                            <?php if (!empty(session()->getFlashData('errors')['nama'])) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session()->getFlashData('errors')['nama'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Berat :</label>
+                            <input value="<?= $obat->berat ?>" name="berat" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['berat']) ? 'is-invalid' : 'valid' ?>">
+                            <?php if (!empty(session()->getFlashData('errors')['berat'])) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session()->getFlashData('errors')['berat'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tanggal Kadaluarsa :</label>
+                            <input value="<?= $obat->tanggal_exp ?>" name="tanggal_exp" type="date" class="form-control <?= !empty(session()->getFlashData('errors')['tanggal_exp']) ? 'is-invalid' : 'valid' ?>">
+                            <?php if (!empty(session()->getFlashData('errors')['tanggal_exp'])) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session()->getFlashData('errors')['tanggal_exp'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Harga :</label>
+                            <input value="<?= $obat->harga ?>" name="harga" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['harga']) ? 'is-invalid' : 'valid' ?>">
+                            <?php if (!empty(session()->getFlashData('errors')['harga'])) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session()->getFlashData('errors')['harga'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Stok :</label>
+                            <input value="<?= $obat->stok ?>" name="stok" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['stok']) ? 'is-invalid' : 'valid' ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kategori Obat :</label>
+                            <select name="kategori" class="selectpicker form-control" data-live-search="true">
+                                <option value="" selected>Pilih Kategori</option>
+                                <option <?= $obat->kategori == 'Vitamin' ? 'selected' : '' ?> value="Vitamin">Vitamin</option>
+                                <option <?= $obat->kategori == 'Obat Sakit Kepala' ? 'selected' : '' ?> value="Obat Sakit Kepala"> Obat Sakit Kepala</option>
+                                <option <?= $obat->kategori == 'Obat Demam' ? 'selected' : '' ?> value="Obat Demam">Obat Demam</option>
+                            </select>
+                            <?php if (!empty(session()->getFlashData('errors')['kategori'])) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session()->getFlashData('errors')['kategori'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

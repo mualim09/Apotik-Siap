@@ -23,21 +23,20 @@ Dashboard
     <div class="card shadow mb-4">
 
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Obat</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Obat Kadaluarsa</h6>
         </div>
         <div class="card-body">
-            <a href="<?= route_to('obat.create') ?>" class="btn btn-success"><i class="fas fa-pencil-alt"></i> Tambah</a>
-            <div class="table-responsive mt-3">
+
+            <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Nama Obat</th>
                             <th>Berat</th>
                             <th>Kategori</th>
-                            <th>Tanggal Kadaluarsa</th>
+                            <th>Kadaluarsa pada</th>
                             <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Action</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -45,30 +44,32 @@ Dashboard
                             <th>Nama Obat</th>
                             <th>Berat</th>
                             <th>Kategori</th>
-                            <th>Tanggal Kadaluarsa</th>
+                            <th>Kadaluarsa pada</th>
                             <th>Harga</th>
-                            <th>Stok</th>
-                            <th>Action</th>
+                            <th>Status</th>
+
                         </tr>
                     </tfoot>
                     <tbody>
-                        <?php foreach ($obat as $item) : ?>
-                            <tr>
-                                <td><?= $item->nama ?></td>
-                                <td><?= $item->berat ?></td>
-                                <td><?= $item->kategori ?></td>
+                        <?php if (!empty($obat)) : ?>
+                            <?php foreach ($obat as $item) : ?>
+                                <tr>
+                                    <td><?= $item->nama ?></td>
+                                    <td><?= $item->berat ?></td>
+                                    <td><?= $item->kategori ?></td>
 
-                                <td><?= tgl_indo($item->tanggal_exp) ?></td>
-                                <td><?= format_rupiah($item->harga) ?></td>
-                                <td><?= $item->stok ?></td>
-                                <td class="d-flex">
-                                    <a href="<?= route_to('obat.edit', $item->id) ?>" class="btn btn-success mr-2"><i class="fas fa-pencil-alt"></i></a>
-                                    <form method="POST" action="<?= route_to('obat.delete', $item->id)  ?>">
-                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
+                                    <td><?= tgl_indo($item->tanggal_exp) ?></td>
+                                    <td><?= format_rupiah($item->harga) ?></td>
+                                    <td><button class="btn btn-warning">Kadaluarsa</button></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <tr class="text-center">
+                                <td colspan="7">
+                                    Data Kosong...
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

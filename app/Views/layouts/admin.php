@@ -17,6 +17,11 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('/assets/css/sb-admin-2.min.css') ?>" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
+
+    <!-- Custom styles for this page -->
+    <link href="<?= base_url('/assets/vendor/datatables/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
 
 </head>
 
@@ -29,7 +34,8 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=
+                                                                                            route_to('dashboard') ?>">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -41,7 +47,8 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="<?=
+                                            route_to('dashboard') ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -56,15 +63,47 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseObat" aria-expanded="true" aria-controls="collapseObat">
+                    <i class="fas fa-pills"></i>
                     <span>Obat</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseObat" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu:</h6>
                         <a class="collapse-item" href="<?= route_to('obat.index') ?>">Lihat Data</a>
-                        <a class="collapse-item" href="<?= route_to('obat.create') ?>">Tambah</a>
+                        <a class="collapse-item" href="<?= route_to('obat.create') ?>">Tambah Obat</a>
+                        <a class="collapse-item" href="<?= route_to('obat.obat_habis') ?>">Obat Habis</a>
+                        <a class="collapse-item" href="<?= route_to('obat.obat_kadaluarsa') ?>">Obat Kadaluarsa</a>
+
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsPembelian" aria-expanded="true" aria-controls="collapsPembelian">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Transaksi</span>
+                </a>
+                <div id="collapsPembelian" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu:</h6>
+                        <a class="collapse-item" href="<?= route_to('transaksi.beli_obat') ?>">Beli Obat</a>
+                        <a class="collapse-item" href="<?= route_to('obat.index') ?>">Penjualan</a>
+
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsLaporan" aria-expanded="true" aria-controls="collapsLaporan">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Laporan</span>
+                </a>
+                <div id="collapsLaporan" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu:</h6>
+                        <a class="collapse-item" href="<?= route_to('obat.index') ?>">Grafik Penjualan</a>
 
                     </div>
                 </div>
@@ -231,6 +270,15 @@
     <!-- Page level custom scripts -->
     <script src="<?= base_url('/assets/js/demo/chart-area-demo.js') ?>"></script>
     <script src="<?= base_url('/assets/js/demo/chart-pie-demo.js') ?>"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/js/bootstrap-select.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="<?= base_url('/assets/vendor/datatables/jquery.dataTables.min.js') ?>"></script>
+    <script src="<?= base_url('/assets/vendor/datatables/dataTables.bootstrap4.min.js') ?>"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="<?= base_url('/assets/js/demo/datatables-demo.js') ?>"></script>
 
 </body>
 

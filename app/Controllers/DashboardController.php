@@ -9,6 +9,8 @@ class DashboardController extends BaseController
 
 	public function index()
 	{
-		echo view('pages/dashboard');
+		$obatModel = new \App\Models\Obat();
+		$jumlah_obat = $obatModel->countAll();
+		echo view('pages/dashboard', compact('jumlah_obat'));
 	}
 }
