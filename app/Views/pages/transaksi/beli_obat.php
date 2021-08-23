@@ -19,6 +19,16 @@ Dashboard
     <?php endif; ?>
 
 
+    <?php if (!empty(session()->getFlashData('errors'))) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Failed!</strong> <?= session()->getFlashData('errors') ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif; ?>
+
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
 
@@ -31,6 +41,7 @@ Dashboard
                     <div class="col-12 d-flex justify-content-end">
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CartModal">
                             <i class="fas fa-shopping-cart"></i>
+                            <?= '(' . $count_cart . ')' ?>
                         </button>
                     </div>
                 </div>
@@ -70,9 +81,15 @@ Dashboard
 
                                             <td><?= tgl_indo($item->tanggal_exp) ?></td>
                                             <td><?= format_rupiah($item->harga) ?></td>
-                                            <td><?= $item->stok ?></td>
+                                            <td>
+                                                <?php if ($item->stok == 0) : ?>
+                                                    <button type="button" class="btn btn-warning"> Habis</button>
+                                                <?php else : ?>
+                                                    <?= $item->stok ?>
+                                                <?php endif; ?>
+                                            </td>
                                             <td class="d-flex">
-                                                <button data-nama="<?= $item->nama ?>" data-harga="<?= format_rupiah($item->harga) ?>" data-id="<?= $item->id ?>" data-stok="<?= $item->stok ?>" t type="button" class="btn btn-success" data-toggle="modal" data-target="#BeliModal">Beli</button>
+                                                <button data-nama="<?= $item->nama ?>" data-harga="<?= format_rupiah($item->harga) ?>" data-id="<?= $item->id ?>" data-stok="<?= $item->stok ?>" t type="button" class="btn btn-success" data-toggle="modal" data-target="#BeliModal"><i class="fas fa-cart-plus"></i></button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -97,17 +114,74 @@ Dashboard
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="CartModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="CartModalLabel">Cart</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form id="pembelian-form" method="POST" action="<?= route_to('transaksi.beli_obat_process') ?>">
+                    <div class="form-group">
+                        <label for="">Nama Pembeli :</label>
+                        <input name="nama_pembeli" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Pembeli :</label>
+                        <input name="tanggal_pembelian" type="date" class="form-control">
+                    </div>
+                    <input type="hidden" name="total" value="<?= $total->total ?>">
+                </form>
+
+                <div class="table-responsive mt-4">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nama Obat</th>
+                                <th>Harga</th>
+                                <th>Jumlah</th>
+                                <th>Sub Total</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($cart as $item) : ?>
+                                <tr>
+                                    <td>
+                                        <?= $item->nama ?>
+                                    </td>
+                                    <td>
+                                        <?= format_rupiah($item->harga) ?>
+                                    </td>
+                                    <td>
+                                        <?= $item->jumlah ?>
+                                    </td>
+                                    <td>
+                                        <?= format_rupiah($item->sub_total) ?>
+
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="<?= route_to('transaksi.delete_from_cart', $item->id_cart) ?>">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                            <?php endforeach; ?>
+                            <tr>
+                                <td class="font-weight-bold" colspan="3">Total :</td>
+                                <td colspan="2"><?= format_rupiah($total->total) ?></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button id="pembelian-process" type="button" class="btn btn-primary">Process</button>
             </div>
         </div>
     </div>
@@ -153,7 +227,7 @@ Dashboard
                                                             <i class="fas fa-minus"></i>
                                                         </button>
                                                     </span>
-                                                    <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1">
+                                                    <input type="text" id="quantity" name="jumlah" class="form-control input-number" value="1">
                                                     <span class="input-group-btn">
                                                         <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
                                                             <i class="fas fa-plus"></i>
@@ -170,7 +244,7 @@ Dashboard
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" id="id-obat" type="text">
+                    <input name="id_obat" id="id-obat" type="hidden">
                     <button type="submit" class="btn btn-primary">Add</button>
 
                 </div>
@@ -197,7 +271,7 @@ Dashboard
         var modal = $(this)
         modal.find('.modal-body #nama-obat').html(nama)
         modal.find('.modal-body #harga-obat').html(harga)
-        modal.find('.modal-body #id-obat').val(id)
+        modal.find('.modal-content #id-obat').val(id)
 
         console.log(modal.find('.modal-body #quantity'))
 
@@ -239,5 +313,12 @@ Dashboard
         });
 
     });
+
+
+    $(function() {
+        $('#pembelian-process').click(function() {
+            $('#pembelian-form').submit();
+        })
+    })
 </script>
 <?= $this->endSection() ?>

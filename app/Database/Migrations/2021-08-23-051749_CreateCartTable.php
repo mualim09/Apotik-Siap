@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTableItemsTransaksi extends Migration
+class CreateCartTable extends Migration
 {
 	public function up()
 	{
@@ -15,23 +15,18 @@ class CreateTableItemsTransaksi extends Migration
 				'unsigned'       => true,
 				'auto_increment' => true,
 			],
-			'id_transaksi'       => [
-				'type'           => 'INT',
-			],
-			'id_obat'       => [
-				'type'           => 'INT',
-			],
 			'jumlah'       => [
 				'type'       => 'INT',
 			],
 			'sub_total'       => [
 				'type'       => 'INT',
 			],
+			'id_obat'       => [
+				'type'       => 'INT',
+			],
 		]);
-
-
 		$this->forge->addPrimaryKey('id');
-		$this->forge->createTable('items_transaksi');
+		$this->forge->createTable('cart');
 	}
 
 	public function down()

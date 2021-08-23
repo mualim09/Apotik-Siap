@@ -88,7 +88,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu:</h6>
                         <a class="collapse-item" href="<?= route_to('transaksi.beli_obat') ?>">Beli Obat</a>
-                        <a class="collapse-item" href="<?= route_to('obat.index') ?>">Penjualan</a>
+                        <a class="collapse-item" href="<?= route_to('transaksi.penjualan') ?>">Penjualan</a>
 
                     </div>
                 </div>
