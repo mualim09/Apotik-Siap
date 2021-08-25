@@ -50,7 +50,9 @@ Dashboard
                                 <td><?= tgl_Waktu_indo($item->tanggal_transaksi) ?></td>
                                 <td>
                                     <a href="<?= route_to('transaksi.invoice', $item->id) ?>
-                                    " class="btn btn-info"><i class="fas fa-file-invoice"></i></a>
+                                    " class="btn btn-info mr-2"><i class="fas fa-file-invoice "></i></a>
+                                    <a href="<?= route_to('transaksi.invoice', $item->id) ?>
+                                    " class="btn btn-dark"><i class="fas fa-print"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

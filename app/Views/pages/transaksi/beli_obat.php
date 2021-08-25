@@ -204,9 +204,9 @@ Dashboard
                                 <table class="table table-bordered" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th width="35%">Nama Obat</th>
-                                            <th width="35%">Harga</th>
-                                            <th width="30%">Jumlah</th>
+                                            <th width="30%">Nama Obat</th>
+                                            <th width="30%">Harga</th>
+                                            <th width="40%">Jumlah</th>
                                         </tr>
                                     </thead>
 

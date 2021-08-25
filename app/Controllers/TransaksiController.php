@@ -44,6 +44,8 @@ class TransaksiController extends BaseController
 		$transaksiModel = new \App\Models\Transaksi();
 		$obatModel = new \App\Models\Obat();
 		$itemsTransaksiModel = new \App\Models\ItemsTransaksi();
+		$validation = \Config\Services::validation();
+
 
 		$cart = $cartModel->findAll();
 
@@ -55,35 +57,47 @@ class TransaksiController extends BaseController
 		];
 		$transaksi = $transaksiModel->insert($data);
 
-		if ($transaksi) {
-			foreach ($cart as $item) {
-
-				//insert data item transaksi
-				$data = [
-					'id_transaksi' => $transaksi,
-					'jumlah' => $item->jumlah,
-					'sub_total' => $item->sub_total,
-					'id_obat' => $item->id_obat
-				];
-				$itemsTransaksiModel->insert($data);
 
 
-				//ambil data obat dan update stok
-				$obat = $obatModel->find($item->id_obat);
-				$new_stok = $obat->stok - $item->jumlah;
-				$obatModel->update($item->id_obat, [
-					'stok' => $new_stok
-				]);
-			}
+		$validation->setRules([
+			'nama_pembeli' => 'required',
+		]);
 
-			//kosongkan cart
-			$cartModel->emptyTable();
-
-			session()->setFlashData('success', 'Transaksi berhasil di proses!');
+		if (!$validation->run($request->getVar())) {
+			session()->setFlashData('errors', 'Periksa kembali input!');
 			return redirect()->to(route_to('transaksi.beli_obat'));
 		} else {
-			session()->setFlashData('errors', 'Transaksi gagal!');
-			return redirect()->to(route_to('transaksi.beli_obat'));
+
+			if ($transaksi) {
+				foreach ($cart as $item) {
+
+					//insert data item transaksi
+					$data = [
+						'id_transaksi' => $transaksi,
+						'jumlah' => $item->jumlah,
+						'sub_total' => $item->sub_total,
+						'id_obat' => $item->id_obat
+					];
+					$itemsTransaksiModel->insert($data);
+
+
+					//ambil data obat dan update stok
+					$obat = $obatModel->find($item->id_obat);
+					$new_stok = $obat->stok - $item->jumlah;
+					$obatModel->update($item->id_obat, [
+						'stok' => $new_stok
+					]);
+				}
+
+				//kosongkan cart
+				$cartModel->emptyTable();
+
+				session()->setFlashData('success', 'Transaksi berhasil di proses!');
+				return redirect()->to(route_to('transaksi.beli_obat'));
+			} else {
+				session()->setFlashData('errors', 'Transaksi gagal!');
+				return redirect()->to(route_to('transaksi.beli_obat'));
+			}
 		}
 	}
 
@@ -98,7 +112,6 @@ class TransaksiController extends BaseController
 
 		//ambil data obat
 		$obat = $obatModel->find($request->getVar('id_obat'));
-
 
 		if ($obat->stok < $request->getVar('jumlah')) {
 			session()->setFlashData('errors', 'Stok obat tidak cukup!');
@@ -161,12 +174,34 @@ class TransaksiController extends BaseController
 	{
 		$transaksiModel = new \App\Models\Transaksi();
 
-		$transaksi = $transaksiModel->findAll();
+		$transaksi = $transaksiModel->orderBy('tanggal_transaksi DESC')->findAll();
 
 		echo view('pages/transaksi/penjualan', compact('transaksi'));
 	}
 
 	public function invoice($id)
+	{
+		$transaksiModel = new \App\Models\Transaksi();
+		$db      = \Config\Database::connect();
+
+
+
+		//transaksi
+		$transaksi = $transaksiModel->find($id);
+
+		///ambil data items 
+		$builder = $db->table('items_transaksi');
+		$builder->select('items_transaksi.id as id_items_transaksi,obat.id as id_obat,items_transaksi.jumlah,items_transaksi.sub_total,obat.nama,obat.harga');
+		$builder->join('obat', 'items_transaksi.id_obat = obat.id');
+		$builder->where('items_transaksi.id_transaksi', $id);
+		$query = $builder->get();
+		$items_transaksi = $query->getResult();
+
+		echo View('pages/transaksi/invoice', compact('transaksi', 'items_transaksi'));
+	}
+
+
+	public function print_invoice($id)
 	{
 		$transaksiModel = new \App\Models\Transaksi();
 		$db      = \Config\Database::connect();

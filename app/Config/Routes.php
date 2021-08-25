@@ -50,7 +50,6 @@ $routes->get('/dashboard', 'DashboardController::index', ['as' => 'dashboard']);
 $routes->get('/obat', 'ObatController::index', ['as' => 'obat.index']);
 $routes->get('/obat/obat_habis', 'ObatController::obat_habis', ['as' => 'obat.obat_habis']);
 $routes->get('/obat/obat_kadaluarsa', 'ObatController::obat_kadaluarsa', ['as' => 'obat.obat_kadaluarsa']);
-
 $routes->get('/obat/create', 'ObatController::create', ['as' => 'obat.create']);
 $routes->post('/obat/store', 'ObatController::store', ['as' => 'obat.store']);
 $routes->post('/obat/delete/(:num)', 'ObatController::delete/$1', ['as' => 'obat.delete']);
