@@ -47,9 +47,9 @@ Dashboard
                         <?php foreach ($transaksi as $item) : ?>
                             <tr>
                                 <td><?= $item->nama_pembeli ?></td>
-                                <td><?= tgl_indo($item->tanggal_transaksi) ?></td>
+                                <td><?= tgl_Waktu_indo($item->tanggal_transaksi) ?></td>
                                 <td>
-                                    <a href="
+                                    <a href="<?= route_to('transaksi.invoice', $item->id) ?>
                                     " class="btn btn-info"><i class="fas fa-file-invoice"></i></a>
                                 </td>
                             </tr>

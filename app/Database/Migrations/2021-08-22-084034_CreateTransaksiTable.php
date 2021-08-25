@@ -19,8 +19,12 @@ class CreateTransaksiTable extends Migration
 				'type'       => 'VARCHAR',
 				'constraint' => '100',
 			],
+			'bulan'       => [
+				'type'       => 'VARCHAR',
+				'constraint' => '100',
+			],
 			'tanggal_transaksi'       => [
-				'type'       => 'DATE',
+				'type'       => 'DATETIME',
 			],
 			'total_harga'       => [
 				'type'       => 'INT',

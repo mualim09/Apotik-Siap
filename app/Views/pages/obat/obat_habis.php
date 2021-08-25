@@ -59,7 +59,12 @@ Dashboard
 
                                     <td><?= tgl_indo($item->tanggal_exp) ?></td>
                                     <td><?= format_rupiah($item->harga) ?></td>
-                                    <td><?= $item->stok ?></td>
+                                    <td> <?php if ($item->stok == 0) : ?>
+                                            <button type="button" class="btn btn-warning"> Habis</button>
+                                        <?php else : ?>
+                                            <?= $item->stok ?>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>

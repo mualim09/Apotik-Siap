@@ -27,7 +27,7 @@ class AuthController extends BaseController
 		]);
 
 		if (!$validation->run($request->getVar())) {
-			session()->setFlashData('errors', $validation->getErrors());
+			session()->setFlashData('validation_errors', $validation->getErrors());
 			return redirect()->to('login')->withInput();
 		} else {
 			if ($user = $userModel->where('username', $request->getVar('username'))->first()) {

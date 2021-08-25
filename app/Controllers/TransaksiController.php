@@ -3,9 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\I18n\Time;
+use Config\View;
 
 class TransaksiController extends BaseController
 {
+
 	public function beli_obat()
 	{
 		$db      = \Config\Database::connect();
@@ -35,18 +38,19 @@ class TransaksiController extends BaseController
 
 	public function beli_obat_process()
 	{
+
 		$request = \Config\Services::request();
 		$cartModel = new \App\Models\Cart();
 		$transaksiModel = new \App\Models\Transaksi();
 		$obatModel = new \App\Models\Obat();
-
 		$itemsTransaksiModel = new \App\Models\ItemsTransaksi();
 
 		$cart = $cartModel->findAll();
 
 		$data = [
 			'nama_pembeli' => $request->getVar('nama_pembeli'),
-			'tanggal_transaksi' => $request->getVar('tanggal_pembelian'),
+			'tanggal_transaksi' => new Time('now', 'Asia/Jakarta'),
+			'tanggal_transaksi' => new Time('now', 'Asia/Jakarta'),
 			'total_harga' => $request->getVar('total')
 		];
 		$transaksi = $transaksiModel->insert($data);
@@ -160,5 +164,26 @@ class TransaksiController extends BaseController
 		$transaksi = $transaksiModel->findAll();
 
 		echo view('pages/transaksi/penjualan', compact('transaksi'));
+	}
+
+	public function invoice($id)
+	{
+		$transaksiModel = new \App\Models\Transaksi();
+		$db      = \Config\Database::connect();
+
+
+
+		//transaksi
+		$transaksi = $transaksiModel->find($id);
+
+		///ambil data items 
+		$builder = $db->table('items_transaksi');
+		$builder->select('items_transaksi.id as id_items_transaksi,obat.id as id_obat,items_transaksi.jumlah,items_transaksi.sub_total,obat.nama,obat.harga');
+		$builder->join('obat', 'items_transaksi.id_obat = obat.id');
+		$builder->where('items_transaksi.id_transaksi', $id);
+		$query = $builder->get();
+		$items_transaksi = $query->getResult();
+
+		echo View('pages/transaksi/invoice', compact('transaksi', 'items_transaksi'));
 	}
 }

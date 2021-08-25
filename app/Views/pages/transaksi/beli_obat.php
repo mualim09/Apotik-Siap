@@ -32,72 +32,67 @@ Dashboard
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
 
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Pembelian Obat</h6>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CartModal">
+                <i class="fas fa-shopping-cart"></i>
+                <?= '(' . $count_cart . ')' ?>
+            </button>
         </div>
         <div class="card-body">
-            <form action="">
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-end">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#CartModal">
-                            <i class="fas fa-shopping-cart"></i>
-                            <?= '(' . $count_cart . ')' ?>
-                        </button>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive mt-3">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Nama Obat</th>
+                                    <th>Berat</th>
+                                    <th>Kategori</th>
+                                    <th>Tanggal Kadaluarsa</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Nama Obat</th>
+                                    <th>Berat</th>
+                                    <th>Kategori</th>
+                                    <th>Tanggal Kadaluarsa</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <?php foreach ($obat as $item) : ?>
+                                    <tr>
+                                        <td><?= $item->nama ?></td>
+                                        <td><?= $item->berat ?></td>
+                                        <td><?= $item->kategori ?></td>
+
+                                        <td><?= tgl_indo($item->tanggal_exp) ?></td>
+                                        <td><?= format_rupiah($item->harga) ?></td>
+                                        <td>
+                                            <?php if ($item->stok == 0) : ?>
+                                                <button type="button" class="btn btn-warning"> Habis</button>
+                                            <?php else : ?>
+                                                <?= $item->stok ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="d-flex">
+                                            <button data-nama="<?= $item->nama ?>" data-harga="<?= format_rupiah($item->harga) ?>" data-id="<?= $item->id ?>" data-stok="<?= $item->stok ?>" t type="button" class="btn btn-success" data-toggle="modal" data-target="#BeliModal"><i class="fas fa-cart-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive mt-3">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Obat</th>
-                                        <th>Berat</th>
-                                        <th>Kategori</th>
-                                        <th>Tanggal Kadaluarsa</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Nama Obat</th>
-                                        <th>Berat</th>
-                                        <th>Kategori</th>
-                                        <th>Tanggal Kadaluarsa</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <?php foreach ($obat as $item) : ?>
-                                        <tr>
-                                            <td><?= $item->nama ?></td>
-                                            <td><?= $item->berat ?></td>
-                                            <td><?= $item->kategori ?></td>
-
-                                            <td><?= tgl_indo($item->tanggal_exp) ?></td>
-                                            <td><?= format_rupiah($item->harga) ?></td>
-                                            <td>
-                                                <?php if ($item->stok == 0) : ?>
-                                                    <button type="button" class="btn btn-warning"> Habis</button>
-                                                <?php else : ?>
-                                                    <?= $item->stok ?>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="d-flex">
-                                                <button data-nama="<?= $item->nama ?>" data-harga="<?= format_rupiah($item->harga) ?>" data-id="<?= $item->id ?>" data-stok="<?= $item->stok ?>" t type="button" class="btn btn-success" data-toggle="modal" data-target="#BeliModal"><i class="fas fa-cart-plus"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
 
 
@@ -125,10 +120,10 @@ Dashboard
                         <label for="">Nama Pembeli :</label>
                         <input name="nama_pembeli" type="text" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label for="">Tanggal Pembeli :</label>
+                    <!-- <div class="form-group">
+                        <label for="">Tanggal Pembelian :</label>
                         <input name="tanggal_pembelian" type="date" class="form-control">
-                    </div>
+                    </div> -->
                     <input type="hidden" name="total" value="<?= $total->total ?>">
                 </form>
 
@@ -171,12 +166,15 @@ Dashboard
                                 </tr>
 
                             <?php endforeach; ?>
+
+
+                        </tbody>
+                        <tfoot>
                             <tr>
                                 <td class="font-weight-bold" colspan="3">Total :</td>
                                 <td colspan="2"><?= format_rupiah($total->total) ?></td>
                             </tr>
-
-                        </tbody>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -206,9 +204,9 @@ Dashboard
                                 <table class="table table-bordered" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Nama Obat</th>
-                                            <th>Harga</th>
-                                            <th>Jumlah</th>
+                                            <th width="35%">Nama Obat</th>
+                                            <th width="35%">Harga</th>
+                                            <th width="30%">Jumlah</th>
                                         </tr>
                                     </thead>
 

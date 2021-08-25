@@ -103,7 +103,7 @@
                 <div id="collapsLaporan" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu:</h6>
-                        <a class="collapse-item" href="<?= route_to('obat.index') ?>">Grafik Penjualan</a>
+                        <a class="collapse-item" href="<?= route_to('laporan.grafik') ?>">Grafik</a>
 
                     </div>
                 </div>
@@ -268,8 +268,8 @@
     <script src="<?= base_url('/assets/vendor/chart.js/Chart.min.js') ?>"></script>
 
     <!-- Page level custom scripts -->
-    <script src="<?= base_url('/assets/js/demo/chart-area-demo.js') ?>"></script>
-    <script src="<?= base_url('/assets/js/demo/chart-pie-demo.js') ?>"></script>
+    <!-- <script src="<?= base_url('/assets/js/demo/chart-area-demo.js') ?>"></script> -->
+    <!-- <script src="<?= base_url('/assets/js/demo/chart-pie-demo.js') ?>"></script> -->
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/js/bootstrap-select.min.js"></script>

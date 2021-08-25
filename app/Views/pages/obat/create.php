@@ -41,7 +41,19 @@ Dashboard
                         </div>
                         <div class="form-group">
                             <label for="">Berat :</label>
-                            <input name="berat" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['berat']) ? 'is-invalid' : 'valid' ?>">
+
+                            <div class="input-group">
+                                <input name="berat" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['berat']) ? 'is-invalid' : 'valid' ?>">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">Miligram (mg)</span>
+                                </div>
+                                <?php if (!empty(session()->getFlashData('errors')['berat'])) : ?>
+                                    <div class="invalid-feedback">
+                                        <?= session()->getFlashData('errors')['berat'] ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
                             <?php if (!empty(session()->getFlashData('errors')['berat'])) : ?>
                                 <div class="invalid-feedback">
                                     <?= session()->getFlashData('errors')['berat'] ?>
@@ -74,10 +86,15 @@ Dashboard
                         <div class="form-group">
                             <label for="">Stok :</label>
                             <input name="stok" type="text" class="form-control <?= !empty(session()->getFlashData('errors')['stok']) ? 'is-invalid' : 'valid' ?>">
+                            <?php if (!empty(session()->getFlashData('errors')['stok'])) : ?>
+                                <div class="invalid-feedback">
+                                    <?= session()->getFlashData('errors')['stok'] ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="form-group">
                             <label for="">Kategori Obat :</label>
-                            <select name="kategori" class="selectpicker form-control" data-live-search="true">
+                            <select name="kategori" class="custom-select <?= !empty(session()->getFlashData('errors')['kategori']) ? 'is-invalid' : 'valid' ?>" data-live-search="true">
                                 <option value="" selected>Pilih Kategori</option>
                                 <option value="Vitamin">Vitamin</option>
                                 <option value="Obat Sakit Kepala"> Obat Sakit Kepala</option>

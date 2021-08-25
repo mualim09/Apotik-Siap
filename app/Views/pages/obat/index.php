@@ -60,7 +60,12 @@ Dashboard
 
                                 <td><?= tgl_indo($item->tanggal_exp) ?></td>
                                 <td><?= format_rupiah($item->harga) ?></td>
-                                <td><?= $item->stok ?></td>
+                                <td> <?php if ($item->stok == 0) : ?>
+                                        <button type="button" class="btn btn-warning"> Habis</button>
+                                    <?php else : ?>
+                                        <?= $item->stok ?>
+                                    <?php endif; ?>
+                                </td>
                                 <td class="d-flex">
                                     <a href="<?= route_to('obat.edit', $item->id) ?>" class="btn btn-success mr-2"><i class="fas fa-pencil-alt"></i></a>
                                     <form method="POST" action="<?= route_to('obat.delete', $item->id)  ?>">

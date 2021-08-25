@@ -60,13 +60,15 @@ $routes->get('/obat/edit/(:num)', 'ObatController::edit/$1', ['as' => 'obat.edit
 
 //Route Transaksi
 $routes->get('/transaksi/beli_obat', 'TransaksiController::beli_obat', ['as' => 'transaksi.beli_obat']);
+$routes->get('/transaksi/invoice/(:num)', 'TransaksiController::invoice/$1', ['as' => 'transaksi.invoice']);
 $routes->post('/transaksi/add_to_cart', 'TransaksiController::add_to_cart', ['as' => 'transaksi.add_to_cart']);
 $routes->get('/transaksi/penjualan', 'TransaksiController::penjualan', ['as' => 'transaksi.penjualan']);
 $routes->post('/transaksi/delete_from_cart/(:num)', 'TransaksiController::delete_from_cart/$1', ['as' => 'transaksi.delete_from_cart']);
 $routes->post('/transaksi/beli_obat_process', 'TransaksiController::beli_obat_process', ['as' => 'transaksi.beli_obat_process']);
 
 
-
+//Route Laporan
+$routes->get('/laporan/grafik', 'LaporanController::grafik', ['as' => 'laporan.grafik']);
 
 
 

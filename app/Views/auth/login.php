@@ -41,7 +41,7 @@
                                     <?php if (!empty(session()->getFlashData('errors'))) :
                                     ?>
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            <strong>Oops!</strong> Cek kembali username dan password.
+                                            <strong>Oops!</strong> <?= session()->getFlashData('errors') ?>
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -50,18 +50,18 @@
                                     <?php endif; ?>
                                     <?= form_open('/login/login_process', 'class="form"') ?>
                                     <div class="form-group">
-                                        <input name="username" type="text" class="form-control form-control-user <?= !empty(session()->getFlashData('errors')['username']) ? 'is-invalid' : 'valid' ?>" aria-describedby="emailHelp" placeholder="Enter Username...">
-                                        <?php if (!empty(session()->getFlashData('errors')['username'])) : ?>
+                                        <input name="username" type="text" class="form-control form-control-user <?= !empty(session()->getFlashData('validation_errors')['username']) ? 'is-invalid' : 'valid' ?>" aria-describedby="emailHelp" placeholder="Enter Username...">
+                                        <?php if (!empty(session()->getFlashData('validation_errors')['username'])) : ?>
                                             <div class="invalid-feedback">
-                                                <?= session()->getFlashData('errors')['username'] ?>
+                                                <?= session()->getFlashData('validation_errors')['username'] ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="form-group">
-                                        <input name="password" type="password" class="form-control form-control-user <?= !empty(session()->getFlashData('errors')['password']) ? 'is-invalid' : 'valid' ?>" placeholder="Password">
-                                        <?php if (!empty(session()->getFlashData('errors')['password'])) : ?>
+                                        <input name="password" type="password" class="form-control form-control-user <?= !empty(session()->getFlashData('validation_errors')['password']) ? 'is-invalid' : 'valid' ?>" placeholder="Password">
+                                        <?php if (!empty(session()->getFlashData('validation_errors')['password'])) : ?>
                                             <div class="invalid-feedback">
-                                                <?= session()->getFlashData('errors')['password'] ?>
+                                                <?= session()->getFlashData('validation_errors')['password'] ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>
